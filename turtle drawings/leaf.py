@@ -8,12 +8,24 @@ turtle.sety(-250)
 def drawGround(dist):
     turtle.left(90)
     turtle.width(100)
-    turtle.color("brown")
+    turtle.color("#663300")
     turtle.forward(dist)
     turtle.back(dist*2)
     turtle.forward(dist)
+    turtle.width(3)
+    turtle.color("green")
     turtle.right(90)
-    
+    turtle.setx(dist)
+    for x in range(0, 40):
+        turtle.right(45)
+        turtle.forward(100)
+        turtle.back(100)
+        turtle.left(90)
+        turtle.forward(100)
+        turtle.back(100)
+        turtle.left(45)
+        turtle.forward(20)
+        turtle.right(90)
 def drawStem(dist):
     turtle.width(7)
     turtle.color("#006B00")
@@ -65,7 +77,7 @@ def drawleaf(dist, angle):
     turtle.hideturtle()
     
 drawGround(400)
-
+turtle.setx(0)
 drawStem(100)    
 drawleaf(30, -50)
 drawleaf(30, 50)
