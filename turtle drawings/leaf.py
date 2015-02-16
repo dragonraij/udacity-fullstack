@@ -1,29 +1,78 @@
 import turtle
 
 turtle.shape("turtle")
-turtle.left(45)
-turtle.color("green")
-turtle.width(5)
+turtle.left(90)
+turtle.sety(-250)
 
 
-
-def drawleaf(dist, angle):
+def drawGround(dist):
+    turtle.left(90)
+    turtle.width(100)
+    turtle.color("brown")
     turtle.forward(dist)
+    turtle.back(dist*2)
+    turtle.forward(dist)
+    turtle.right(90)
+    
+def drawStem(dist):
+    turtle.width(7)
+    turtle.color("#006B00")
+    turtle.forward(dist)
+    
+def drawleaf(dist, angle):
+    turtle.width(5)
+    turtle.color("#006B00")
+    turtle.left(angle)
+    turtle.forward(dist)
+    turtle.color("#5C8533", "#669900")
+    turtle.begin_fill()
+    turtle.left(45)
+    turtle.width(2)
+    turtle.forward(dist)
+    turtle.right(20)
+    turtle.forward(dist/2)
+    turtle.right(20)
+    turtle.forward(dist/2)
+    turtle.right(30)
+    turtle.forward(dist)
+    turtle.right(100)
+    turtle.forward(dist)
+    turtle.right(20)
+    turtle.forward(dist/2)
+    turtle.right(20)
+    turtle.forward(dist/2)
+    turtle.right(20)
+    turtle.forward(dist/2)
+    turtle.right(25)
+    turtle.forward(dist/2)
+    turtle.right(25)
+    turtle.forward(dist/2)
+    turtle.end_fill()
+    turtle.width(3)
+    turtle.color("#006B00")
+    turtle.right(125)
+    turtle.forward(dist)
+    turtle.width(2)
     turtle.left(45)
     turtle.forward(dist/2)
     turtle.back(dist/2)
-    turtle.right (100)
+    turtle.right(90)
     turtle.forward(dist/2)
     turtle.back(dist/2)
-    turtle.left(55)
+    turtle.left(45)
+    turtle.back(dist*1.9)
+    turtle.right(angle)
+    turtle.hideturtle()
     
-drawleaf(50, 50)
+drawGround(400)
 
-drawleaf(35, 50)
-
-drawleaf(50, 50)
-
-drawleaf(35, 50)
-
+drawStem(100)    
+drawleaf(30, -50)
+drawleaf(30, 50)
+drawStem(50)    
+drawleaf(30, 50)
+drawStem(50)
+drawleaf(30, -50)
+drawStem(150)    
 
 turtle.exitonclick()
