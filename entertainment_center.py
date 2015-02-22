@@ -5,6 +5,8 @@ toy_story = media.Movie("Toy Story", "A story of a boy and his toys that come to
 avatar = media.Movie("Avatar", "A marine collides with aliens", "http://www.impawards.com/2009/posters/avatar_ver5_xlg.jpg", "https://www.youtube.com/watch?v=d1_JBMrrYw8")
 odyssey = media.Movie("2001: A Space Odyssey", "A trip in space", "http://upload.wikimedia.org/wikipedia/en/e/ef/2001_A_Space_Odyssey_Style_B.jpg","https://www.youtube.com/watch?v=N6ywMnbef6Y")
 gudday = media.Movie ("Gunday", "A new Love story", "http://upload.wikimedia.org/wikipedia/en/4/46/Gunday_%282013_film%29.jpg", "https://www.youtube.com/watch?v=lFI09rbuHQ8")
+xmen = media.Movie ("X-Men: Days of future past", "To save the future they must save the past", "http://cdn.collider.com/wp-content/uploads/x-men-days-of-future-past-international-poster.jpeg", "https://www.youtube.com/watch?v=pK2zYHWDZKo")
+crimson = 
 #print(toy_story.storyline)     
 #print(avatar.storyline)
 #avatar.show_trailer()
