@@ -1,3 +1,8 @@
+#Udacity Full Stack Assessment 1
+#Raj Prasad 27/2/14
+
+#project file changes : updated color for tile hover and Fresh tomatoes text. Added attributes for director year and synopsis
+
 import webbrowser
 import os
 import re
@@ -37,7 +42,7 @@ main_page_head = '''
             padding-top: 20px;
         }
         .movie-tile:hover {
-            background-color: #EEE;
+            background-color: #99D6AD; 
             cursor: pointer;
         }
         .scale-media {
@@ -53,6 +58,8 @@ main_page_head = '''
             top: 0;
             background-color: white;
         }
+        
+        
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
@@ -105,7 +112,7 @@ main_page_content = '''
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">Fresh Tomatoes Movie Trailers</a>
+            <a class="navbar-brand" href="#"><span style="color:#99D6AD;">Fresh Tomatoes </span> Movie Trailers</a>
           </div>
         </div>
       </div>
@@ -122,6 +129,8 @@ movie_tile_content = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
     <h2>{movie_title}</h2>
+    <p>{movie_director} ({year})</p>
+    <h6><i>{synopsis}</i></h6>
 </div>
 '''
 
@@ -138,7 +147,10 @@ def create_movie_tiles_content(movies):
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
+            trailer_youtube_id=trailer_youtube_id,
+            movie_director=movie.movie_director,
+            year=movie.release_year,
+            synopsis=movie.storyline
         )
     return content
 
