@@ -71,7 +71,18 @@ def playerStandings():
     """
     DB = connect()
     c=DB.cursor()
-    c.execute("SELECT * FROM players LEFT OUTER JOIN matches ON players.id=matches.player1")
+    c.execute("DROP VIEW IF EXISTS combined")
+    c.execute("DROP VIEW IF EXISTS winners")
+    c.execute("DROP VIEW IF EXISTS losers")
+    c.execute("CREATE VIEW winners AS SELECT * FROM players p1 \
+        LEFT OUTER JOIN matches m1 ON p1.id=m1.winner ")
+
+    c.execute("CREATE VIEW losers AS SELECT * FROM players \
+        LEFT OUTER JOIN matches ON players.id=matches.loser ")          
+    # c.execute("SELECT players.id, players.name, SUM(CASE WHEN players.id = matches.Winner THEN 1 ELSE 0 END) AS Wins,\
+    #    SUM( CASE WHEN players.id = matches.Winner OR players.id = matches.loser THEN 1 ELSE 0 END) AS Matches FROM players \
+    #    LEFT OUTER JOIN matches ON players.id=matches.loser GROUP BY players.id ORDER BY Wins DESC")
+    c.execute("SELECT * FROM winners UNION select * from losers")
     rows = c.fetchall()
     DB.commit()
     DB.close()
@@ -85,7 +96,12 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
- 
+    DB = connect()
+    c=DB.cursor()
+   # SQL = "INSERT INTO matches (winner, loser) VALUES ('%s', '%s');"
+    c.execute('INSERT INTO matches (winner, loser) VALUES (%s, %s)', (winner, loser))
+    DB.commit()
+    DB.close()
  
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
