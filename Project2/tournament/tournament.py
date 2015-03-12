@@ -74,15 +74,30 @@ def playerStandings():
     c.execute("DROP VIEW IF EXISTS combined")
     c.execute("DROP VIEW IF EXISTS winners")
     c.execute("DROP VIEW IF EXISTS losers")
-    c.execute("CREATE VIEW winners AS SELECT * FROM players p1 \
+    c.execute("CREATE VIEW winners AS SELECT id, name, winner, loser FROM players p1 \
         LEFT OUTER JOIN matches m1 ON p1.id=m1.winner ")
 
-    c.execute("CREATE VIEW losers AS SELECT * FROM players \
-        LEFT OUTER JOIN matches ON players.id=matches.loser ")          
+    c.execute("CREATE VIEW losers AS SELECT id, name, winner, loser FROM players \
+         JOIN matches ON players.id=matches.loser ")          
+
+    c.execute("CREATE VIEW combined AS SELECT * FROM winners\
+                UNION\
+                SELECT * FROM losers")
+
+    c.execute ("SELECT id, name, SUM(CASE WHEN id = winner THEN 1 ELSE 0 END) AS Wins, \
+                SUM(CASE WHEN id = winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
+                FROM combined GROUP BY id, name ORDER BY Wins")
     # c.execute("SELECT players.id, players.name, SUM(CASE WHEN players.id = matches.Winner THEN 1 ELSE 0 END) AS Wins,\
     #    SUM( CASE WHEN players.id = matches.Winner OR players.id = matches.loser THEN 1 ELSE 0 END) AS Matches FROM players \
     #    LEFT OUTER JOIN matches ON players.id=matches.loser GROUP BY players.id ORDER BY Wins DESC")
-    c.execute("SELECT * FROM winners UNION select * from losers")
+
+##    c.execute("SELECT id, name, SUM(CASE WHEN id = Winner THEN 1 ELSE 0 END) AS Wins, \
+##                SUM( CASE WHEN id = Winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
+##                FROM winners GROUP BY id, name ORDER BY Wins\
+##                UNION \
+##                SELECT id, name, SUM(CASE WHEN id = Winner THEN 1 ELSE 0 END) AS Wins,\
+##                SUM( CASE WHEN id = Winner OR id = loser THEN 1 ELSE 0 END) AS Matches\
+##                from losers GROUP BY id, name ORDER BY Wins")
     rows = c.fetchall()
     DB.commit()
     DB.close()
