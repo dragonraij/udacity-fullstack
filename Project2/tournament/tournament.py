@@ -86,18 +86,8 @@ def playerStandings():
 
     c.execute ("SELECT id, name, SUM(CASE WHEN id = winner THEN 1 ELSE 0 END) AS Wins, \
                 SUM(CASE WHEN id = winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
-                FROM combined GROUP BY id, name ORDER BY Wins")
-    # c.execute("SELECT players.id, players.name, SUM(CASE WHEN players.id = matches.Winner THEN 1 ELSE 0 END) AS Wins,\
-    #    SUM( CASE WHEN players.id = matches.Winner OR players.id = matches.loser THEN 1 ELSE 0 END) AS Matches FROM players \
-    #    LEFT OUTER JOIN matches ON players.id=matches.loser GROUP BY players.id ORDER BY Wins DESC")
+                FROM combined GROUP BY id, name ORDER BY Wins DESC")
 
-##    c.execute("SELECT id, name, SUM(CASE WHEN id = Winner THEN 1 ELSE 0 END) AS Wins, \
-##                SUM( CASE WHEN id = Winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
-##                FROM winners GROUP BY id, name ORDER BY Wins\
-##                UNION \
-##                SELECT id, name, SUM(CASE WHEN id = Winner THEN 1 ELSE 0 END) AS Wins,\
-##                SUM( CASE WHEN id = Winner OR id = loser THEN 1 ELSE 0 END) AS Matches\
-##                from losers GROUP BY id, name ORDER BY Wins")
     rows = c.fetchall()
     DB.commit()
     DB.close()
@@ -113,7 +103,6 @@ def reportMatch(winner, loser):
     """
     DB = connect()
     c=DB.cursor()
-   # SQL = "INSERT INTO matches (winner, loser) VALUES ('%s', '%s');"
     c.execute('INSERT INTO matches (winner, loser) VALUES (%s, %s)', (winner, loser))
     DB.commit()
     DB.close()
@@ -133,5 +122,18 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    swissList =[]
 
+    DB = connect()
+    c=DB.cursor()
+    c.execute ("SELECT id, name, SUM(CASE WHEN id = winner THEN 1 ELSE 0 END) AS Wins, \
+                SUM(CASE WHEN id = winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
+                FROM combined GROUP BY id, name ORDER BY Wins DESC")
+    while TRUE:
+        playerA=c.fetchone()
+        if playerA == None:
+            break
+        playerB = c.fetchone()
+        truple = playerA[0], playerA[1], playerB[0], playerB[1]
+        list.append(truple)
 
