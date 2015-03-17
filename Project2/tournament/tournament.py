@@ -2,6 +2,13 @@
 # 
 # tournament.py -- implementation of a Swiss-system tournament
 #
+#Edited By: Raj Prasad 3/3/15
+#Project 2: Udacity FullStack
+## This program contains methods to interface with a back end Database. It is an
+## implementation for managing Swiss Tournament. It implements methods to register players
+# count players, update match results and to update player standings in addition to deleting
+# the for managing new tournament
+##
 
 import psycopg2
 import bleach
@@ -71,6 +78,7 @@ def playerStandings():
     """
     DB = connect()
     c=DB.cursor()
+    #Creates a number of views to simplify select query
     c.execute("DROP VIEW IF EXISTS combined")
     c.execute("DROP VIEW IF EXISTS winners")
     c.execute("DROP VIEW IF EXISTS losers")
@@ -84,6 +92,7 @@ def playerStandings():
                 UNION\
                 SELECT * FROM losers")
 
+    #From existing data contains a table containing player id, name, wins and matches
     c.execute ("SELECT id, name, SUM(CASE WHEN id = winner THEN 1 ELSE 0 END) AS Wins, \
                 SUM(CASE WHEN id = winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
                 FROM combined GROUP BY id, name ORDER BY Wins DESC")
@@ -129,11 +138,15 @@ def swissPairings():
     c.execute ("SELECT id, name, SUM(CASE WHEN id = winner THEN 1 ELSE 0 END) AS Wins, \
                 SUM(CASE WHEN id = winner OR id = loser THEN 1 ELSE 0 END) AS Matches \
                 FROM combined GROUP BY id, name ORDER BY Wins DESC")
-    while TRUE:
+    # while there is valid rows of data in the query result, pairs of player details
+    # are extracted. Player ID and name is extracted and the players are paired together
+    # and added to swissList. Once finished iterating through, the list is returned
+    
+    while True:
         playerA=c.fetchone()
         if playerA == None:
             break
         playerB = c.fetchone()
         truple = playerA[0], playerA[1], playerB[0], playerB[1]
-        list.append(truple)
-
+        swissList.append(truple)
+    return swissList
