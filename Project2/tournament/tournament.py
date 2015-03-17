@@ -149,4 +149,5 @@ def swissPairings():
         playerB = c.fetchone()
         truple = playerA[0], playerA[1], playerB[0], playerB[1]
         swissList.append(truple)
+    c.close()
     return swissList
